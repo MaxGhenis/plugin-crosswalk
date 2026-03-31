@@ -1,0 +1,43 @@
+{
+  "$schema": "https://claude.ai/schemas/plugin-marketplace.json",
+  "name": "sample-plugin",
+  "version": "1.2.3",
+  "description": "Sample Claude plugin fixture for plugin-crosswalk tests",
+  "homepage": "https://example.com/sample-plugin",
+  "repository": "https://github.com/example/sample-plugin",
+  "owner": {
+    "name": "Example Org",
+    "url": "https://github.com/example"
+  },
+  "plugins": [
+    {
+      "name": "starter",
+      "description": "Starter guidance",
+      "category": "getting-started",
+      "version": "1.2.3",
+      "keywords": ["starter"],
+      "license": "MIT",
+      "skills": [
+        "./skills/getting-started/hello-skill"
+      ]
+    },
+    {
+      "name": "complete",
+      "description": "Complete guidance",
+      "category": "development",
+      "version": "1.2.3",
+      "keywords": ["cli", "converter"],
+      "license": "MIT",
+      "skills": [
+        "./skills/getting-started/hello-skill",
+        "./skills/development/multi-line-skill"
+      ],
+      "commands": [
+        "./commands/do-the-thing.md"
+      ],
+      "agents": [
+        "./agents/reviewer.md"
+      ]
+    }
+  ]
+}
