@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
-from .converter import convert_repository
+from .converter import FORMAT_ORDER, FormatName, convert_repository
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -17,7 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     convert = subparsers.add_parser(
         "convert",
-        help="Generate Codex-style packages and/or universal Agent Skills.",
+        help="Generate Claude, Codex, and/or universal Agent Skills outputs.",
     )
     convert.add_argument(
         "--root",
@@ -32,20 +32,25 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output directory. Defaults to dist/cross-provider.",
     )
     convert.add_argument(
+        "--from",
+        dest="source_format",
+        choices=["auto", *FORMAT_ORDER],
+        default="auto",
+        help="Source format. Defaults to auto-detect.",
+    )
+    convert.add_argument(
+        "--to",
+        dest="targets",
+        action="append",
+        choices=list(FORMAT_ORDER),
+        default=[],
+        help="Target format. Repeat to generate multiple outputs. Defaults to all other formats.",
+    )
+    convert.add_argument(
         "--plugin",
         action="append",
         default=[],
-        help="Limit generation to one or more Claude subplugin names.",
-    )
-    convert.add_argument(
-        "--skip-codex",
-        action="store_true",
-        help="Skip Codex package generation.",
-    )
-    convert.add_argument(
-        "--skip-agent-skills",
-        action="store_true",
-        help="Skip universal Agent Skills export.",
+        help="Limit generation to one or more Claude subplugin names. Claude sources only.",
     )
     convert.add_argument(
         "--no-clean",
@@ -69,15 +74,17 @@ def main(argv: Sequence[str] | None = None) -> int:
     results = convert_repository(
         root=args.root,
         output=args.output,
+        source_format=args.source_format,
+        targets=list(args.targets) if args.targets else None,
         plugin_names=args.plugin,
-        skip_codex=args.skip_codex,
-        skip_agent_skills=args.skip_agent_skills,
         clean=not args.no_clean,
     )
 
-    print(f"Converted plugin repo into {results['output']}")
+    print(f"Converted {results['sourceFormat']} source into {results['output']}")
+    if results["claude"]:
+        print("Claude output: 1")
     if results["codex"]:
         print(f"Codex packages: {len(results['codex'])}")
-    if results["agentSkills"]:
-        print(f"Universal skills: {results['agentSkills']['count']}")
+    if results["universal"]:
+        print(f"Universal skills: {results['universal']['count']}")
     return 0

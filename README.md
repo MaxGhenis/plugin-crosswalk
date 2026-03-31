@@ -1,8 +1,8 @@
 # plugin-crosswalk
 
-`plugin-crosswalk` converts Claude-style plugin repos into more portable
-artifacts:
+`plugin-crosswalk` converts between three plugin/skill layouts:
 
+- Claude marketplace plugin repos
 - Codex-style plugin packages with `.codex-plugin/plugin.json`
 - Universal `.agents/skills` exports for cross-client skill loading
 
@@ -35,22 +35,28 @@ uv sync --dev
 
 ## CLI
 
-Generate everything from the current directory:
+Auto-detect the source format and generate all other target formats:
 
 ```bash
 plugin-crosswalk convert
 ```
 
-Convert a specific Claude subplugin:
+Convert a specific Claude subplugin into Codex only:
 
 ```bash
-plugin-crosswalk convert --root /path/to/plugin --plugin app-development
+plugin-crosswalk convert --root /path/to/plugin --from claude --to codex --plugin app-development
 ```
 
-Generate only universal skills:
+Convert a Codex package back into a Claude repo:
 
 ```bash
-plugin-crosswalk convert --skip-codex
+plugin-crosswalk convert --root /path/to/codex-package --from codex --to claude
+```
+
+Convert universal skills into both Claude and Codex outputs:
+
+```bash
+plugin-crosswalk convert --root /path/to/repo-with-.agents
 ```
 
 Write without cleaning the existing output directory first:
@@ -63,6 +69,12 @@ plugin-crosswalk convert --no-clean
 
 ```text
 dist/cross-provider/
+├── claude/
+│   └── <plugin-name>/
+│       ├── .claude-plugin/marketplace.json
+│       ├── skills/
+│       ├── commands/
+│       └── agents/
 ├── codex/
 │   └── <plugin-id>/
 │       ├── .codex-plugin/plugin.json
@@ -85,9 +97,11 @@ uv run pytest
 The repository includes fixture-based tests for:
 
 - multiline YAML frontmatter parsing
-- Codex package generation
-- universal skill catalog generation
-- CLI smoke tests
+- Claude -> Codex conversion
+- Claude -> universal conversion
+- Codex -> Claude conversion
+- universal -> Claude/Codex conversion
+- CLI smoke tests for multiple formats
 
 ## Releasing
 

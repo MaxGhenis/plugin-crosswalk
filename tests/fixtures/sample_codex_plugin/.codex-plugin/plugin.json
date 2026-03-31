@@ -1,0 +1,29 @@
+{
+  "name": "sample-codex",
+  "version": "0.4.0",
+  "description": "Sample Codex plugin fixture",
+  "author": {
+    "name": "Example Org",
+    "url": "https://github.com/example"
+  },
+  "homepage": "https://example.com/sample-codex",
+  "repository": "https://github.com/example/sample-codex",
+  "license": "MIT",
+  "keywords": ["codex", "fixture"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sample Codex",
+    "shortDescription": "Sample Codex fixture",
+    "longDescription": "Fixture for plugin-crosswalk tests.",
+    "developerName": "Example Org",
+    "category": "Coding",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://example.com/sample-codex",
+    "privacyPolicyURL": "https://example.com/privacy",
+    "termsOfServiceURL": "https://example.com/terms",
+    "defaultPrompt": ["Use this fixture"],
+    "composerIcon": "",
+    "logo": "",
+    "screenshots": []
+  }
+}
