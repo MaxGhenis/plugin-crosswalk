@@ -88,3 +88,8 @@ The repository includes fixture-based tests for:
 - Codex package generation
 - universal skill catalog generation
 - CLI smoke tests
+
+## Releasing
+
+Release automation is configured in [publish.yml](.github/workflows/publish.yml).
+The one-time PyPI setup and release steps are documented in [releasing.md](docs/releasing.md).

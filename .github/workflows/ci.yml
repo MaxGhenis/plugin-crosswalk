@@ -18,3 +18,5 @@ jobs:
         run: uv sync --dev
       - name: Run tests
         run: uv run pytest
+      - name: Build distributions
+        run: uv build
